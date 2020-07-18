@@ -96,7 +96,7 @@ func TestImportCmd(t *testing.T) {
 
 	actual := strings.TrimPrefix(cmdString(importCmd), importCmd.Path+" ")
 
-	expected := "import -no-color -input=false -lock-timeout=0s -lock=true my-addr my-id"
+	expected := "import -no-color -lock-timeout=0s -lock=true my-addr my-id"
 
 	if actual != expected {
 		t.Fatalf("expected default arguments of ImportCmd:\n%s\n actual arguments:\n%s\n", expected, actual)
@@ -117,7 +117,7 @@ func TestImportCmd(t *testing.T) {
 
 	actual = strings.TrimPrefix(cmdString(importCmd), importCmd.Path+" ")
 
-	expected = "import -no-color -input=false -backup=testbackup -lock-timeout=200s -state=teststate -state-out=teststateout -var-file=testvarfile -lock=false -allow-missing-config -var 'var1=foo' -var 'var2=bar' my-addr2 my-id2"
+	expected = "import -no-color -backup=testbackup -lock-timeout=200s -state=teststate -state-out=teststateout -var-file=testvarfile -lock=false -allow-missing-config -var 'var1=foo' -var 'var2=bar' my-addr2 my-id2"
 
 	if actual != expected {
 		t.Fatalf("expected arguments of ImportCmd:\n%s\n actual arguments:\n%s\n", expected, actual)

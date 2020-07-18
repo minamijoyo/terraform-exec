@@ -21,7 +21,7 @@ func TestInitCmd(t *testing.T) {
 
 	actual := strings.TrimPrefix(cmdString(initCmd), initCmd.Path+" ")
 
-	expected := "init -no-color -force-copy -input=false -lock-timeout=0s -backend=true -get=true -get-plugins=true -lock=true -upgrade=false -verify-plugins=true"
+	expected := "init -no-color -force-copy -lock-timeout=0s -backend=true -get=true -get-plugins=true -lock=true -upgrade=false -verify-plugins=true"
 
 	if actual != expected {
 		t.Fatalf("expected default arguments of InitCmd:\n%s\n actual arguments:\n%s\n", expected, actual)
@@ -32,7 +32,7 @@ func TestInitCmd(t *testing.T) {
 
 	actual = strings.TrimPrefix(cmdString(initCmd), initCmd.Path+" ")
 
-	expected = "init -no-color -force-copy -input=false -from-module=testsource -lock-timeout=999s -backend=false -get=false -get-plugins=false -lock=false -upgrade=true -verify-plugins=false -reconfigure -backend-config=confpath1 -backend-config=confpath2 -plugin-dir=testdir1 -plugin-dir=testdir2"
+	expected = "init -no-color -force-copy -from-module=testsource -lock-timeout=999s -backend=false -get=false -get-plugins=false -lock=false -upgrade=true -verify-plugins=false -reconfigure -backend-config=confpath1 -backend-config=confpath2 -plugin-dir=testdir1 -plugin-dir=testdir2"
 
 	if actual != expected {
 		t.Fatalf("expected arguments of InitCmd:\n%s\n actual arguments:\n%s\n", expected, actual)

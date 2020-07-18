@@ -10,11 +10,17 @@ import (
 const (
 	checkpointDisableEnvVar = "CHECKPOINT_DISABLE"
 	logEnvVar               = "TF_LOG"
+	inputEnvVar             = "TF_INPUT"
+	automationEnvVar        = "TF_IN_AUTOMATION"
+	logPathEnvVar           = "TF_LOG_PATH"
 
 	varEnvVarPrefix = "TF_VAR_"
 )
 
 var prohibitedEnvVars = []string{
+	inputEnvVar,
+	automationEnvVar,
+	logPathEnvVar,
 	logEnvVar,
 }
 
@@ -53,6 +59,8 @@ func (tf *Terraform) buildEnv() []string {
 	}
 
 	menv[logEnvVar] = "" // so logging can't pollute our stderr output
+	menv[inputEnvVar] = "0"
+	menv[automationEnvVar] = "1"
 
 	env := []string{}
 	for k, v := range menv {

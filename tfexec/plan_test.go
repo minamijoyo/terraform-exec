@@ -21,7 +21,7 @@ func TestPlanCmd(t *testing.T) {
 
 	actual := strings.TrimPrefix(cmdString(planCmd), planCmd.Path+" ")
 
-	expected := "plan -no-color -input=false -lock-timeout=0s -lock=true -parallelism=10 -refresh=true"
+	expected := "plan -no-color -lock-timeout=0s -lock=true -parallelism=10 -refresh=true"
 
 	if actual != expected {
 		t.Fatalf("expected default arguments of PlanCmd:\n%s\n actual arguments:\n%s\n", expected, actual)
@@ -32,7 +32,7 @@ func TestPlanCmd(t *testing.T) {
 
 	actual = strings.TrimPrefix(cmdString(planCmd), planCmd.Path+" ")
 
-	expected = "plan -no-color -input=false -lock-timeout=22s -out=whale -state=marvin -var-file=trillian -lock=false -parallelism=42 -refresh=false -destroy -target=zaphod -target=beeblebrox -var 'android=paranoid' -var 'brain_size=planet'"
+	expected = "plan -no-color -lock-timeout=22s -out=whale -state=marvin -var-file=trillian -lock=false -parallelism=42 -refresh=false -destroy -target=zaphod -target=beeblebrox -var 'android=paranoid' -var 'brain_size=planet'"
 
 	if actual != expected {
 		t.Fatalf("expected arguments of PlanCmd:\n%s\n actual arguments:\n%s\n", expected, actual)

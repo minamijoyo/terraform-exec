@@ -46,7 +46,7 @@ func TestApplyCmd(t *testing.T) {
 
 	actual := strings.TrimPrefix(cmdString(applyCmd), applyCmd.Path+" ")
 
-	expected := "apply -no-color -auto-approve -input=false -backup=testbackup -lock-timeout=200s -state=teststate -state-out=teststateout -var-file=testvarfile -lock=false -parallelism=99 -refresh=false -target=target1 -target=target2 -var 'var1=foo' -var 'var2=bar' testfile"
+	expected := "apply -no-color -auto-approve -backup=testbackup -lock-timeout=200s -state=teststate -state-out=teststateout -var-file=testvarfile -lock=false -parallelism=99 -refresh=false -target=target1 -target=target2 -var 'var1=foo' -var 'var2=bar' testfile"
 
 	if actual != expected {
 		t.Fatalf("expected arguments of ApplyCmd:\n%s\n actual arguments:\n%s\n", expected, actual)

@@ -101,7 +101,7 @@ func (tf *Terraform) applyCmd(ctx context.Context, opts ...ApplyOption) *exec.Cm
 		o.configureApply(&c)
 	}
 
-	args := []string{"apply", "-no-color", "-auto-approve", "-input=false"}
+	args := []string{"apply", "-no-color", "-auto-approve"}
 
 	// string opts: only pass if set
 	if c.backup != "" {

@@ -94,7 +94,7 @@ func (tf *Terraform) planCmd(ctx context.Context, opts ...PlanOption) *exec.Cmd 
 		o.configurePlan(&c)
 	}
 
-	args := []string{"plan", "-no-color", "-input=false"}
+	args := []string{"plan", "-no-color"}
 
 	// string opts: only pass if set
 	if c.lockTimeout != "" {
