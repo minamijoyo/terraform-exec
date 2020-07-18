@@ -2,6 +2,7 @@ package tfexec
 
 import (
 	"context"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -58,7 +59,16 @@ func (tf *Terraform) buildEnv() []string {
 		menv[checkpointDisableEnvVar] = os.Getenv(checkpointDisableEnvVar)
 	}
 
-	menv[logEnvVar] = "" // so logging can't pollute our stderr output
+	if tf.logPath == "" {
+		// so logging can't pollute our stderr output
+		menv[logEnvVar] = ""
+		menv[logPathEnvVar] = ""
+	} else {
+		menv[logPathEnvVar] = tf.logPath
+		// Log levels other than TRACE are currently unreliable, the CLI recommends using TRACE only.
+		menv[logEnvVar] = "TRACE"
+	}
+
 	menv[inputEnvVar] = "0"
 	menv[automationEnvVar] = "1"
 
@@ -77,7 +87,7 @@ func (tf *Terraform) buildTerraformCmd(ctx context.Context, args ...string) *exe
 	cmd.Env = env
 	cmd.Dir = tf.workingDir
 
-	tf.logger.Printf("Terraform command: %s", cmdString(cmd))
+	log.Printf("[INFO] running Terraform command: %s", cmdString(cmd))
 
 	return cmd
 }
