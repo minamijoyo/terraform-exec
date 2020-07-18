@@ -2,11 +2,68 @@ package tfexec
 
 import (
 	"context"
+	"os"
 	"os/exec"
+	"strings"
 )
 
+const (
+	checkpointDisableEnvVar = "CHECKPOINT_DISABLE"
+	logEnvVar               = "TF_LOG"
+
+	varEnvVarPrefix = "TF_VAR_"
+)
+
+var prohibitedEnvVars = []string{
+	logEnvVar,
+}
+
+func environ() map[string]string {
+	env := map[string]string{}
+	for _, ev := range os.Environ() {
+		parts := strings.SplitN(ev, "=", 2)
+		if len(parts) == 0 {
+			continue
+		}
+		k := parts[0]
+		v := ""
+		if len(parts) == 2 {
+			v = parts[1]
+		}
+		env[k] = v
+	}
+	return env
+}
+
+func (tf *Terraform) buildEnv() []string {
+	var menv map[string]string
+	if tf.env == nil {
+		menv = environ()
+	} else {
+		menv = make(map[string]string, len(tf.env))
+		for k, v := range tf.env {
+			menv[k] = v
+		}
+	}
+
+	if _, ok := menv[checkpointDisableEnvVar]; !ok {
+		// always propagate CHECKPOINT_DISABLE env var unless it is
+		// explicitly overridden with tf.SetEnv
+		menv[checkpointDisableEnvVar] = os.Getenv(checkpointDisableEnvVar)
+	}
+
+	menv[logEnvVar] = "" // so logging can't pollute our stderr output
+
+	env := []string{}
+	for k, v := range menv {
+		env = append(env, k+"="+v)
+	}
+
+	return env
+}
+
 func (tf *Terraform) buildTerraformCmd(ctx context.Context, args ...string) *exec.Cmd {
-	env := append(tf.env, "TF_LOG=") // so logging can't pollute our stderr output
+	env := tf.buildEnv()
 
 	cmd := exec.CommandContext(ctx, tf.execPath, args...)
 	cmd.Env = env
